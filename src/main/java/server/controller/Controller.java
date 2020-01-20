@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import server.service.ExpressionService;
 
+import java.io.IOException;
+
 @RestController
 public class Controller {
 

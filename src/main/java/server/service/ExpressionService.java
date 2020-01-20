@@ -8,6 +8,7 @@ import server.daoimpl.ResultExpressionDaoImpl;
 import server.dto.request.*;
 import server.dto.response.*;
 
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -112,14 +113,19 @@ public class ExpressionService {
     public static String resultPopular () {
         // Находим в базе число наиболее часто повторяющееся
         ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
-        int num=0;
+        List<String> numbers = new ArrayList<>();
         for (List<String> list : resultExpressionDao.getList()
         ) {
-           // if (list.get(0).equals(countRequest.getCount())) col+=1;
+            String[] parts = list.get(1).split("[^0-9]");
+            for (int i = 0; i < parts.length; i++) {
+                if (!parts[i].equals("")) {
+                    numbers.add(parts[i]);
+                }
+            }
         }
         // Формируем dto ответ
         PopularResponse popularResponse = new PopularResponse();
-        popularResponse.setPopular(num);
+        //popularResponse.setPopular(num);
         return popularResponse.getPopular();
     }
 }
