@@ -1,17 +1,15 @@
 package server.database;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Database {
-    private static Map<String,List<String>> result = new HashMap<>();
+    private static Set<List<String>> result = new HashSet<>();
 
-    public static Map<String, List<String>> getResult() {
+    public static Set<List<String>> getResult() {
         return result;
     }
 
-    public static void setResult(Map<String, List<String>> result) {
+    public static void setResult(Set<List<String>> result) {
         Database.result = result;
     }
 }

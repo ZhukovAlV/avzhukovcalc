@@ -12,7 +12,9 @@ public class ResultExpressionDaoImpl implements ResultExpressionDao {
     public void insert(String dataExpression, String expression, String resultExpression) {
         List<String> result = new ArrayList<>();
         result.add(dataExpression);
+        result.add(expression);
         result.add(resultExpression);
-        Database.getResult().put(expression,result);
+        Database.getResult().add(result);
     }
+
 }
