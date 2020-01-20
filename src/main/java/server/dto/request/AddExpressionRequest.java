@@ -1,6 +1,6 @@
 package server.dto.request;
 
-public class AddExpression {
+public class AddExpressionRequest {
     private String expression;
 
     public String getExpression() {
