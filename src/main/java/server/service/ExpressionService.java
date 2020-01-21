@@ -125,8 +125,7 @@ public class ExpressionService {
         }
         // Формируем dto ответ
         PopularResponse popularResponse = new PopularResponse();
-     //   popularResponse.setPopular(hm.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey());
-        popularResponse.setPopular(Collections.max(hm.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
+        popularResponse.setPopular(hm.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey());
         return popularResponse.getPopular();
     }
 
