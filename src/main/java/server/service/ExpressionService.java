@@ -111,7 +111,23 @@ public class ExpressionService {
     }
 
     public static String resultPopular () {
-        // Находим в базе число наиболее часто повторяющееся
+        // Размещаем в Map число и сколько раз оно встречается
+        Map<String,Integer> hm = new HashMap();
+        for (String x:returnArray()){
+
+            if (!hm.containsKey(x)){
+                hm.put(x,1);
+            } else {
+                hm.put(x, hm.get(x)+1);
+            }
+        }
+        // Формируем dto ответ
+        PopularResponse popularResponse = new PopularResponse();
+        popularResponse.setPopular(hm.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey());
+        return popularResponse.getPopular();
+    }
+
+    public static List<String> returnArray () {
         ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
         List<String> numbers = new ArrayList<>();
         for (List<String> list : resultExpressionDao.getList()
@@ -123,9 +139,6 @@ public class ExpressionService {
                 }
             }
         }
-        // Формируем dto ответ
-        PopularResponse popularResponse = new PopularResponse();
-        //popularResponse.setPopular(num);
-        return popularResponse.getPopular();
+        return numbers;
     }
 }
