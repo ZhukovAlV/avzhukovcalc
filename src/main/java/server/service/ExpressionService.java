@@ -7,6 +7,8 @@ import server.dao.ResultExpressionDao;
 import server.daoimpl.ResultExpressionDaoImpl;
 import server.dto.request.*;
 import server.dto.response.*;
+import server.exception.CalculatorException;
+import server.exception.ErrorCode;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -21,7 +23,8 @@ public class ExpressionService {
         return date;
     }*/
 
-    public static String resultExpression (String param) {
+    public static String resultExpression (String param, ResultExpressionDao resultExpressionDao) throws CalculatorException {
+        if (!isCorrectExp(param)) throw new CalculatorException(ErrorCode.EXPRESSION_IS_WRONG);
         // Формируем dto запрос
         AddExpressionRequest reqExpression = new AddExpressionRequest();
         reqExpression.setExpression(param);
@@ -32,7 +35,6 @@ public class ExpressionService {
         GetResultExpResponse responseExpression = new GetResultExpResponse(resultDate(),
                 reqExpression.getExpression(),  Objects.requireNonNull(resultExpression.getValue()).toString());
         // Записываем результат в базу
-        ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
         resultExpressionDao.insert(responseExpression.getDateExp(),responseExpression.getDataExp(),responseExpression.getResultExp());
         return responseExpression.getResultExp();
     }
@@ -42,12 +44,12 @@ public class ExpressionService {
         return dateFormat.format(new Date());
     }
 
-    public static String resultCount (String param) {
+    public static String resultCount (String param, ResultExpressionDao resultExpressionDao) throws CalculatorException {
+        if (!isCorrectExp(param)) throw new CalculatorException(ErrorCode.EXPRESSION_IS_WRONG);
         // Формируем dto запрос
         CountRequest countRequest = new CountRequest();
         countRequest.setCount(param);
         // Находим в базе записи на нужную дату
-        ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
         int col=0;
         for (List<String> list : resultExpressionDao.getList()
              ) {
@@ -59,12 +61,12 @@ public class ExpressionService {
         return countResponse.getCount();
     }
 
-    public static String resultOperation (String param) {
+    public static String resultOperation (String param, ResultExpressionDao resultExpressionDao) throws CalculatorException {
+        if (!isCorrectExp(param)) throw new CalculatorException(ErrorCode.EXPRESSION_IS_WRONG);
         // Формируем dto запрос
         OperationRequest operationRequest = new OperationRequest();
         operationRequest.setOperation(param);
         // Находим в базе записи на нужную дату
-        ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
         int col=0;
         for (List<String> list : resultExpressionDao.getList()
         ) {
@@ -76,12 +78,12 @@ public class ExpressionService {
         return operationResponse.getOperation();
     }
 
-    public static String resultOndate (String param) {
+    public static String resultOndate (String param, ResultExpressionDao resultExpressionDao) throws CalculatorException {
+        if (!isCorrectExp(param)) throw new CalculatorException(ErrorCode.EXPRESSION_IS_WRONG);
         // Формируем dto запрос
         OndateRequest ondateRequest = new OndateRequest();
         ondateRequest.setOndate(param);
         // Находим в базе записи на нужную дату
-        ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
         List<String> listRes = new ArrayList<>();
         for (List<String> list : resultExpressionDao.getList()
         ) {
@@ -93,12 +95,12 @@ public class ExpressionService {
         return ondateResponse.getOndate();
     }
 
-    public static String resultOnoperation(String param) {
+    public static String resultOnoperation(String param, ResultExpressionDao resultExpressionDao) throws CalculatorException {
+        if (!isCorrectExp(param)) throw new CalculatorException(ErrorCode.EXPRESSION_IS_WRONG);
         // Формируем dto запрос
         OnoperationRequest onoperationRequest = new OnoperationRequest();
         onoperationRequest.setOnoperation(param);
         // Находим в базе записи на нужную дату
-        ResultExpressionDao resultExpressionDao = new ResultExpressionDaoImpl();
         List<String> listRes = new ArrayList<>();
         for (List<String> list : resultExpressionDao.getList()
         ) {
@@ -110,9 +112,9 @@ public class ExpressionService {
         return onoperationResponse.getOnoperation();
     }
 
-    public static String resultPopular () {
+    public static String resultPopular (ResultExpressionDao resultExpressionDao) {
         // Размещаем в Map число и сколько раз оно встречается
-        Map<String,Integer> hm = new HashMap();
+        Map<String,Integer> hm = new HashMap<>();
         for (String x:returnArray()){
 
             if (!hm.containsKey(x)){
@@ -123,7 +125,8 @@ public class ExpressionService {
         }
         // Формируем dto ответ
         PopularResponse popularResponse = new PopularResponse();
-        popularResponse.setPopular(hm.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey());
+     //   popularResponse.setPopular(hm.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey());
+        popularResponse.setPopular(Collections.max(hm.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
         return popularResponse.getPopular();
     }
 
@@ -140,5 +143,9 @@ public class ExpressionService {
             }
         }
         return numbers;
+    }
+
+    private static boolean isCorrectExp(String str) {
+        return str.matches("[\\d|\\+|\\-|\\/|\\*|\\^|\\(|\\)]*");
     }
 }
