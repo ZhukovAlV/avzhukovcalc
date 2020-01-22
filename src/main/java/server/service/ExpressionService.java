@@ -3,6 +3,7 @@ package server.service;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.stereotype.Service;
 import server.dao.ResultExpressionDao;
 import server.daoimpl.ResultExpressionDaoImpl;
 import server.dto.request.*;
@@ -14,6 +15,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Service
 public class ExpressionService {
 
 /*    public static Date parseDate (String dateString) throws ParseException {
