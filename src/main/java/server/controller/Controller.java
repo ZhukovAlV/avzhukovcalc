@@ -3,8 +3,6 @@ package server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import server.dao.ResultExpressionDao;
 import server.daoimpl.ResultExpressionDaoImpl;
@@ -35,49 +33,45 @@ public class Controller {
     public ResultExpressionDao getResultExpressionDao() {
         return resultExpressionDao;
     }
-    public void setResultExpressionDao(ResultExpressionDao resultExpressionDao) {
-        this.resultExpressionDao = resultExpressionDao;
+
+    private RestResponse result = new RestResponse();
+    public RestResponse getResult() {
+        return result;
     }
 
     @GetMapping(value = "/calculator", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestResponse calculator (String param) throws CalculatorException {
-        RestResponse result = new RestResponse();
-        result.setParam(ExpressionService.resultExpression(param,getResultExpressionDao()));
-        return result;
+        getResult().setParam(ExpressionService.resultExpression(param,getResultExpressionDao()));
+        return getResult();
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestResponse count (String param) throws CalculatorException {
-        RestResponse result = new RestResponse();
-        result.setParam(ExpressionService.resultCount(param,getResultExpressionDao()));
-        return result;
+        getResult().setParam(ExpressionService.resultCount(param,getResultExpressionDao()));
+        return getResult();
     }
 
     @GetMapping(value = "/operation", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestResponse operation (String param) throws CalculatorException {
-        RestResponse result = new RestResponse();
-        result.setParam(ExpressionService.resultOperation(param,getResultExpressionDao()));
-        return result;
+        getResult().setParam(ExpressionService.resultOperation(param,getResultExpressionDao()));
+        return getResult();
     }
 
     @GetMapping(value = "/ondate", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestResponse ondate (String param) throws CalculatorException {
-        RestResponse result = new RestResponse();
-        result.setParam(ExpressionService.resultOndate(param,getResultExpressionDao()));
-        return result;
+        getResult().setParam(ExpressionService.resultOndate(param,getResultExpressionDao()));
+        return getResult();
     }
 
     @GetMapping(value = "/onoperation", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestResponse onoperation (String param) throws CalculatorException {
-        RestResponse result = new RestResponse();
-        result.setParam(ExpressionService.resultOnoperation(param,getResultExpressionDao()));
-        return result;
+        getResult().setParam(ExpressionService.resultOnoperation(param,getResultExpressionDao()));
+        return getResult();
     }
 
     @GetMapping(value = "/popular", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestResponse popular () {
-        RestResponse result = new RestResponse();
-        result.setParam(ExpressionService.resultPopular(getResultExpressionDao()));
-        return result;
+        getResult().setParam(ExpressionService.resultPopular(getResultExpressionDao()));
+        return getResult();
     }
 }
