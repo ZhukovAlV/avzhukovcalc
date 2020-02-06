@@ -1,11 +1,13 @@
 package server.dto.request;
 
+import java.util.Date;
+
 public class CountRequest {
-    private String count;
-    public String getCount() {
+    private Date count;
+    public Date getCount() {
         return count;
     }
-    public void setCount(String count) {
+    public void setCount(Date count) {
         this.count = count;
     }
 }

@@ -8,7 +8,7 @@ public class Calculator {
     @Id
     @GeneratedValue
     @Column
-    private Integer id;
+    private Long id;
 
     @Column
     private String expression;
@@ -18,15 +18,7 @@ public class Calculator {
     private Date date;
 
     @Column
-    private Double result;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String result;
 
     public String getExpression() {
         return expression;
@@ -44,11 +36,19 @@ public class Calculator {
         this.date = date;
     }
 
-    public Double getResult() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getResult() {
         return result;
     }
 
-    public void setResult(Double result) {
+    public void setResult(String result) {
         this.result = result;
     }
 }

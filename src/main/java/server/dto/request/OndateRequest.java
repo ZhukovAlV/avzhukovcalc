@@ -1,11 +1,13 @@
 package server.dto.request;
 
+import java.util.Date;
+
 public class OndateRequest {
-    private String ondate;
-    public String getOndate() {
+    private Date ondate;
+    public Date getOndate() {
         return ondate;
     }
-    public void setOndate(String ondate) {
+    public void setOndate(Date ondate) {
         this.ondate = ondate;
     }
 }
