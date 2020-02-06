@@ -30,3 +30,29 @@ ONDATE(%дата%) - список всех заданий на дату, ONOPERA
 ONOPERATION(-) должно вернуть (-7*8+9-(9/4.5))^2
 
 POPULAR() должно вернуть 9
+
+
+После запуска сервера для проверки можно в URL вводить следующие адреса:
+
+/calculator
+/count
+/operation
+/ondate
+/onoperation
+/popular
+
+Например: 
+http://localhost:8080/calculator?param=(8%2b8-(8*8)%2f2)
+дает результат -16
+
+http://localhost:8080/ondate?param=21-01-2020
+дает результат (8+8-(8*8)/2)
+
+http://localhost:8080/popular
+дает результат 8
+
+
+Для ввода в URL некоторых специальных символов:
++	%2b
+/	%2f
+^	%5e
