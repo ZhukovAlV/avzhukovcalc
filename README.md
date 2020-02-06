@@ -56,3 +56,5 @@ http://localhost:8080/popular
 +	%2b
 /	%2f
 ^	%5e
+
+Доступ к управлению базой данных http://localhost:8080/h2-console
